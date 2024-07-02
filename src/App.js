@@ -1,20 +1,27 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
+import Button from '@mui/material/Button';
 
-const limit = 15;
+const limits = [12,24,48,96];
 
 function App() {
   const [characters, setCharacters] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [limit,setLimit] = useState(12);
 
   useEffect(() => {
-    fetchCharacters(page);
+    fetchCharacters(page,limit);
     // console.log(page);
   }, [page]);
 
-  const fetchCharacters = async (page) => {
+  useEffect(()=>{
+    fetchCharacters(page,limit);
+  },[limit])
+
+
+  const fetchCharacters = async (page,limit) => {
     const apiUrl = "https://narutodb.xyz/api/character";
     setIsLoading(true);
     const result = await axios.get(apiUrl, { params: { page, limit } });
@@ -31,6 +38,10 @@ function App() {
     setPage((prev) => prev - 1);
   };
 
+  const chanegeDisplayNumber = (e) =>{
+    setLimit(e.target.value);
+  }
+
   return (
     <div className="container">
       <div className="header">
@@ -42,6 +53,16 @@ function App() {
         <div>Now Loading...</div>
       ) : (
         <main>
+          <div className="limit">
+            <span className="dispay-message">表示数：</span>
+          {limits.map((lim)=>{
+            return(
+              <Button key={lim} className={lim==limit?"selected":"not-selected"} value={lim} onClick={chanegeDisplayNumber}
+              disabled={lim==limit?true:false}>{lim}</Button>
+            )
+          })
+        }
+        </div>
           <div className="cards-container">
             {characters.map((character) => {
               return (

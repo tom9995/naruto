@@ -151,3 +151,16 @@ main {
   margin: 0 15px;
   font-size: 1.1em;
 }
+
+.limit {
+  text-align: right;
+}
+
+.dispay-message {
+  font-size: small;
+  color: black;
+}
+
+.selected {
+  color: #333!important ;
+}
