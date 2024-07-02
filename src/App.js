@@ -54,6 +54,7 @@ function App() {
       ) : (
         <main>
           <div className="limit">
+            {/* 表示するアイテム数を選択 */}
             <span className="dispay-message">表示数：</span>
           {limits.map((lim)=>{
             return(
