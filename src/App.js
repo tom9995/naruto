@@ -10,6 +10,7 @@ function App() {
   const [page, setPage] = useState(localStorage.getItem("page") || 1);
   const [isLoading, setIsLoading] = useState(false);
   const [limit,setLimit] = useState(localStorage.getItem("limit") || 12);
+  const [search,setSearch] = useState("");
 
   useEffect(() => {
     localStorage.setItem("page", page);
@@ -22,13 +23,14 @@ function App() {
     // console.log("called");
   }, [page,limit]);
 
-  const fetchCharacters = async (page,limit) => {
-    const apiUrl = "https://narutodb.xyz/api/character";
+  const fetchCharacters = async () => {
     setIsLoading(true);
-    const result = await axios.get(apiUrl, { params: { page, limit } });
-    // console.log(result);
-    setCharacters(result.data.characters);
+    const apiUrl = search ? "https://narutodb.xyz/api/character/search" : "https://narutodb.xyz/api/character";
+
+    const result = await axios.get(apiUrl, { params: { page, limit,name:search } });
+    setCharacters(result.data.characters??[result.data]);
     setIsLoading(false);
+    setSearch();
   };
 
   const handleNext = () => {
@@ -43,6 +45,20 @@ function App() {
     setLimit(e.target.value);
   }
 
+  const handleSearch = () =>{
+    fetchCharacters();
+  }
+
+  const handleInput = (e) =>{
+    setSearch(e.target.value);
+  }
+
+  const handleEnter = (e) =>{
+    if(e.key === "Enter"){
+      handleSearch();
+    }      
+  }
+
   return (
     <div className="container">
       <div className="header">
@@ -55,7 +71,6 @@ function App() {
       ) : (
         <main>
           <div className="limit">
-            {/* 表示するアイテム数を選択 */}
             <span className="dispay-message">表示数：</span>
           {limits.map((lim)=>{
             return(
@@ -64,6 +79,10 @@ function App() {
             )
           })
         }
+        </div>
+        <div className="saerch">
+          <input type="text" placeholder="name" className="search-text" value={search} onChange={handleInput} onKeyDown={handleEnter}></input>
+          <button className="search-button" onClick={handleSearch} >検索</button>
         </div>
           <div className="cards-container">
             {characters.map((character) => {

@@ -164,3 +164,10 @@ main {
 .selected {
   color: #333!important ;
 }
+
+.search-text {
+ height: 20px;
+ width: 500px;
+ margin-bottom: 1cm;
+ margin-right: 0.1cm;
+}
