@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/naruto/static/css/main.4510ec7f.css",
-    "main.js": "/naruto/static/js/main.b3f2cc7f.js",
+    "main.js": "/naruto/static/js/main.9152ac84.js",
     "index.html": "/naruto/index.html",
     "main.4510ec7f.css.map": "/naruto/static/css/main.4510ec7f.css.map",
-    "main.b3f2cc7f.js.map": "/naruto/static/js/main.b3f2cc7f.js.map"
+    "main.9152ac84.js.map": "/naruto/static/js/main.9152ac84.js.map"
   },
   "entrypoints": [
     "static/css/main.4510ec7f.css",
-    "static/js/main.b3f2cc7f.js"
+    "static/js/main.9152ac84.js"
   ]
 }
