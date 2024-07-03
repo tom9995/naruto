@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
 import Button from '@mui/material/Button';
@@ -7,31 +7,32 @@ const limits = [12,24,48,96];
 
 function App() {
   const [characters, setCharacters] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(localStorage.getItem("page") || 1);
   const [isLoading, setIsLoading] = useState(false);
-  const [limit,setLimit] = useState(12);
+  const [limit,setLimit] = useState(localStorage.getItem("limit") || 12);
 
   useEffect(() => {
-    fetchCharacters(page,limit);
-    // console.log(page);
-  }, [page]);
+    localStorage.setItem("page", page);
+    const pageStorage = localStorage.getItem("page") || 1;
 
-  useEffect(()=>{
-    fetchCharacters(page,limit);
-  },[limit])
+    localStorage.setItem("limit", limit);
+      const limitStorage = localStorage.getItem("limit") || 12;
 
+    fetchCharacters(pageStorage,limitStorage);
+    // console.log("called");
+  }, [page,limit]);
 
   const fetchCharacters = async (page,limit) => {
     const apiUrl = "https://narutodb.xyz/api/character";
     setIsLoading(true);
     const result = await axios.get(apiUrl, { params: { page, limit } });
-    console.log(result);
+    // console.log(result);
     setCharacters(result.data.characters);
     setIsLoading(false);
   };
 
   const handleNext = () => {
-    setPage((prev) => prev + 1);
+    setPage((prev) => parseInt(prev) + 1);
   };
 
   const handlePrev = () => {
